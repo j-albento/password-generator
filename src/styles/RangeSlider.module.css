@@ -1,0 +1,7 @@
+.Slider {
+	box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
+	transition: ease-in 0.2s;
+}
+.StrengthIndicator {
+	transition: ease-in-out 0.2s;
+}

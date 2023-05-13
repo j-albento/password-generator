@@ -1,0 +1,31 @@
+.InputContainer {
+	display: flex;
+	margin-bottom: 2vh;
+}
+.Input {
+	outline: none;
+	background: none;
+	width: 100%;
+	border: 2px solid #343434;
+	border-radius: 5px 0 0 5px;
+	border-right: none;
+	padding: 0.7rem;
+	font-family: "Space Mono";
+	font-size: 13pt;
+	letter-spacing: 2px;
+	color: #fff;
+	cursor: default;
+}
+.CopyButton {
+	background: #7358ff;
+	border: none;
+	border-radius: 0 5px 5px 0;
+	padding: 0.5rem;
+	font-size: 10pt;
+	color: #fff;
+	cursor: pointer;
+	transition: ease-in-out 0.2s;
+}
+.CopyButton:hover {
+	background: #5e47cd;
+}

@@ -1,30 +1,27 @@
 import React, { useState } from "react";
-import RangeSlider from "./components/RangeSlider";
-import SymbolToggle from "./components/SymbolToggle";
-import NumbersToggle from "./components/NumbersToggle";
-import CaseToggle from "./components/CaseToggle";
-import Input from "./components/Input";
-import RegenerateButton from "./components/RegenerateButton";
+import RangeSlider from "./RangeSlider";
+import SymbolToggle from "./SymbolToggle";
+import NumbersToggle from "./NumbersToggle";
+import CaseToggle from "./CaseToggle";
+import RandomizeButton from "./RandomizeButton";
 import { FormGroup, FormControlLabel, Typography } from "@mui/material";
-import "./App.css";
-import "@fontsource/maven-pro";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import styles from "../styles/PasswordGenerator.module.css";
 
-function App() {
+export default function PasswordGenerator() {
 	const [password, setPassword] = useState("");
 	const [includeSymbols, setIncludeSymbols] = useState(true);
 	const [includeNumbers, setIncludeNumbers] = useState(true);
-	const [includeMixedCase, setIncludeMixedCase] = useState(true);
-	const [sliderValue, setSliderValue] = useState(0);
+	const [includeUppercase, setIncludeUppercase] = useState(true);
 
 	const characters = {
 		lowercase: "abcdefghijklmnopqrstuvwxyz",
 		uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
 		numbers: "0123456789",
-		symbols: "!?@#$%^&*()[];<>/-+=_~"
+		symbols: "!@#$%^&*()[];<>/-"
 	};
 
 	const getValue = (value) => {
-		setSliderValue((prev) => value);
 		generatePassword(value);
 	};
 
@@ -36,12 +33,11 @@ function App() {
 		if (includeNumbers) {
 			charset += characters.numbers;
 		}
-		if (includeMixedCase) {
-			charset += characters.uppercase + characters.lowercase;
+		if (includeUppercase) {
+			charset += characters.uppercase;
 		} else {
 			charset += characters.lowercase;
 		}
-
 		let newPassword = "";
 		for (let i = 0; i < passwordLength; i++) {
 			const randomIndex = Math.floor(Math.random() * charset.length);
@@ -53,28 +49,39 @@ function App() {
 	const handleIncludeSymbols = () => {
 		setIncludeSymbols((prev) => !prev);
 	};
-	const handleIncludeMixedCase = () => {
-		setIncludeMixedCase((prev) => !prev);
+	const handleIncludeUppercase = () => {
+		setIncludeUppercase((prev) => !prev);
 	};
 	const handleIncludeNumbers = () => {
 		setIncludeNumbers((prev) => !prev);
 	};
 
 	return (
-		<div className="Container">
-			<Typography variant="body" gutterBottom={true}>
-				Choose the length of your password by using the slider below and select
-				the options to strengthen your password!
-			</Typography>
-			<Input password={password} />
-
+		<div className={styles.Container}>
+			<div className={styles.InputContainer}>
+				<input
+					className={styles.Input}
+					placeholder="Generated password"
+					value={password}
+					readOnly={true}
+				/>
+				<button
+					className={styles.CopyButton}
+					onClick={() => {
+						console.log("hi");
+					}}>
+					<ContentCopyIcon
+						sx={{ width: 20, height: 20, padding: 0, color: "#fff" }}
+					/>
+					Copy
+				</button>
+			</div>
 			<RangeSlider getValue={getValue} />
 
-			<RegenerateButton value={sliderValue} regenerate={generatePassword} />
-
-			<FormGroup className="SwitchContainer">
+			<FormGroup className={styles.SwitchContainer}>
+				<Typography variant="h5">Include</Typography>
 				<FormControlLabel
-					className="Toggle"
+					className={styles.Toggle}
 					control={
 						<SymbolToggle
 							checked={includeSymbols}
@@ -84,17 +91,17 @@ function App() {
 					label="Symbols"
 				/>
 				<FormControlLabel
-					className="Toggle"
+					className={styles.Toggle}
 					control={
 						<CaseToggle
-							checked={includeMixedCase}
-							onChange={handleIncludeMixedCase}
+							checked={includeUppercase}
+							onChange={handleIncludeUppercase}
 						/>
 					}
 					label="Mixed Case"
 				/>
 				<FormControlLabel
-					className="Toggle"
+					className={styles.Toggle}
 					control={
 						<NumbersToggle
 							checked={includeNumbers}
@@ -104,8 +111,7 @@ function App() {
 					label="Numbers"
 				/>
 			</FormGroup>
+			<RandomizeButton />
 		</div>
 	);
 }
-
-export default App;
